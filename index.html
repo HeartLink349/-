@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartLink - Premium 3D Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold-primary: #FFD700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --dark-bg: #050505;
+        }
+
+        html { height: 100%; background: #050505; scroll-behavior: smooth; }
+        
+        body {
+            background: radial-gradient(circle at center, #1a1600 0%, #050505 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1200px; 
+        }
+
+        .stars-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
+        @keyframes floatingEffect {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .emoji-fall {
+            position: fixed; top: -50px; z-index: 9999;
+            user-select: none; pointer-events: none;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0) translateX(0) rotate(0); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateY(50vh) translateX(15px) rotate(10deg); }
+            100% { transform: translateY(110vh) translateX(-15px) rotate(-10deg); opacity: 0; }
+        }
+
+        .header {
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: fadeInUp 1s ease-out, floatingEffect 4s ease-in-out infinite;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            width: 115px;
+            height: 115px;
+            margin: 0 auto 15px;
+        }
+
+        .logo-glow-bg {
+            position: absolute; inset: -8px;
+            background: conic-gradient(from 0deg, transparent, var(--gold-primary), transparent, var(--gold-primary), transparent);
+            border-radius: 50%;
+            animation: rotate-glow 4s linear infinite;
+            filter: blur(15px);
+        }
+
+        @keyframes rotate-glow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .logo-container {
+            position: relative; width: 100%; height: 100%; border-radius: 50%;
+            background: #000; border: 2px solid var(--gold-primary);
+            overflow: hidden; z-index: 2;
+            box-shadow: 0 0 25px var(--gold-glow);
+        }
+        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        h1 {
+            font-size: 2.7rem;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, var(--gold-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+            filter: drop-shadow(0 5px 15px rgba(255,215,0,0.3));
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            width: 85%; max-width: 400px;
+            border-radius: 30px; padding: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .card-title { color: var(--gold-primary); font-size: 1.6rem; font-weight: 900; text-align: center; margin-bottom: 10px; }
+        
+        .sub-text { text-align: center; color: #ccc; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.6; }
+
+        .occasions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .occasion-tag {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            text-align: center;
+            font-weight: 700;
+            border-right: 3px solid var(--gold-primary);
+        }
+
+        .promo-text {
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.1), transparent);
+            padding: 15px; border-radius: 12px; text-align: center; font-weight: 900; 
+            border: 1px solid rgba(255,215,0,0.2); color: var(--gold-primary);
+            margin-top: 20px; font-size: 1.1rem;
+        }
+
+        .detail-text { text-align: center; font-size: 0.85rem; margin-top: 15px; color: #bbb; line-height: 1.5; }
+
+        /* قسم الضمان والجودة */
+        .features-container {
+            width: 85%; max-width: 400px;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+        .feature-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 15px; padding: 12px 5px;
+            text-align: center; font-size: 0.7rem; font-weight: 700;
+        }
+        .feature-box i { color: var(--gold-primary); display: block; margin-bottom: 6px; font-size: 1.2rem; }
+
+        .contact-section {
+            width: 85%; max-width: 400px;
+            display: flex; flex-direction: column; gap: 15px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+            opacity: 0;
+        }
+
+        .social-card {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #0f0f0f; padding: 18px 25px; border-radius: 22px;
+            text-decoration: none; color: white; border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .social-card:hover { transform: translateY(-5px); border-color: var(--gold-primary); background: #151515; }
+
+        .social-info span { display: block; font-weight: 900; font-size: 1.2rem; }
+        .social-info small { color: #888; font-size: 0.8rem; }
+
+        .social-icon {
+            width: 45px; height: 45px; display: flex; align-items: center;
+            justify-content: center; border-radius: 14px; font-size: 1.6rem;
+        }
+
+        .card-whatsapp { border-bottom: 3px solid #25D366; }
+        .card-whatsapp .social-icon { background: #25D366; box-shadow: 0 0 15px rgba(37, 211, 102, 0.3); }
+        
+        .card-tiktok { border-bottom: 3px solid #fff; }
+        .card-tiktok .social-icon { background: #fff; color: #000; box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); }
+
+        .footer-text {
+            opacity: 0.7; font-size: 0.9rem; margin-bottom: 40px;
+            color: var(--gold-primary); text-align: center; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container" id="starField"></div>
+
+    <div class="header">
+        <div class="logo-wrapper">
+            <div class="logo-glow-bg"></div>
+            <div class="logo-container">
+                <img src="https://files.catbox.moe/2sb6ry.jpg" alt="HeartLink Logo">
+            </div>
+        </div>
+        <h1>𝐇𝐞𝐚𝐫𝐭𝐋𝐢𝐧𝐤</h1>
+    </div>
+
+    <div class="main-card">
+        <div class="card-title">حكايتكم تستاهل ذكرى تعيش للأبد.. ✨</div>
+        <div class="sub-text">لأن الهدايا مش مجرد شيء مادي، إحنا بنصمم لك مشاعر وتنفع لكل المناسبات:</div>
+        
+        <div class="occasions-grid">
+            <div class="occasion-tag">🎂 أعياد ميلاد</div>
+            <div class="occasion-tag">🤝 أصحاب</div>
+            <div class="occasion-tag">🎉 سنة جديدة</div>
+            <div class="occasion-tag">💑 ذكرى بينكم</div>
+            <div class="occasion-tag" style="grid-column: span 2;">❤️ حتى لو عايز تصالح حبيبتك</div>
+        </div>
+
+        <p class="promo-text">نفّذ فكرتك دلوقتى.. الدقة هي لعبتنا! 🎨</p>
+        
+        <div class="detail-text">
+            بنعمل لك أفضل حاجة بكل التفاصيل اللي انت عايزها <br>
+            قبل الاستلام بتشوفها تجربة وتقول لو عايز تغيّر أي حاجة
+        </div>
+    </div>
+
+    <div class="features-container">
+        <div class="feature-box">
+            <i class="fas fa-check-circle"></i>
+            ضمان جودة
+        </div>
+        <div class="feature-box">
+            <i class="fas fa-bolt"></i>
+            رد سريع
+        </div>
+        <div class="feature-box">
+            <i class="fas fa-magic"></i>
+            تعديل قبل الاستلام
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <p style="text-align: center; font-weight: 700; font-size: 0.95rem; color: var(--gold-primary); margin-bottom: 5px;">اسألنا على الواتساب وهـنرد عليك في أسرع وقت</p>
+        
+        <a href="https://wa.me/201125674359" class="social-card card-whatsapp">
+            <div class="social-info"><span>واتساب</span><small>تواصل معنا مباشرة</small></div>
+            <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
+        </a>
+
+        <a href="https://tiktok.com/@ba7bak.28" class="social-card card-tiktok">
+            <div class="social-info"><span>تيك توك</span><small>شاهد فيديوهاتنا الحصرية</small></div>
+            <div class="social-icon"><i class="fab fa-tiktok"></i></div>
+        </a>
+    </div>
+
+    <div class="footer-text">❤ made by HeartLink - مستني إيه ابعت يلااا</div>
+
+    <script>
+        // توليد النجوم
+        const starField = document.getElementById('starField');
+        for (let i = 0; i < 40; i++) {
+            const star = document.createElement('div');
+            star.style.position = 'absolute';
+            star.style.width = '2px';
+            star.style.height = '2px';
+            star.style.background = '#fff';
+            star.style.borderRadius = '50%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.opacity = Math.random();
+            star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite alternate`;
+            starField.appendChild(star);
+        }
+
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes twinkle { from { opacity: 0.2; } to { opacity: 0.8; transform: scale(1.2); } }`;
+        document.head.appendChild(style);
+
+        function createEmoji() {
+            const emojis = ['💝', '🎁', '✨', '❤️'];
+            const emojiEl = document.createElement('div');
+            emojiEl.className = 'emoji-fall';
+            emojiEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            const leftPos = Math.random() * 100;
+            const duration = Math.random() * 3 + 5; 
+            emojiEl.style.left = leftPos + '%';
+            emojiEl.style.fontSize = Math.random() * 10 + 20 + 'px';
+            emojiEl.style.animationDuration = duration + 's';
+            document.body.appendChild(emojiEl);
+            setTimeout(() => { emojiEl.remove(); }, duration * 1000);
+        }
+        setInterval(createEmoji, 1000);
+    </script>
+</body>
+</html>
